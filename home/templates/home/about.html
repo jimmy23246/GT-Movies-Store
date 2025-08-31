@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="p-3">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-6 mx-auto mb-3">
+        <h2>About</h2>
+        <hr />
+        <p>
+           Welcome to GT Movies Store- a digital cinema 
+           experience for  Georgia Tech community. Explore a vast, 
+           offers of movies featuring the latest hits, classics, and 
+           art movies. Buy a movie now and watch it in HD.
+        </p>
+        <p>
+          Watch on any device you desire to. GT Movies Store is offered
+          as a website. Our smart review system help you find your next
+          movie real fast.
+        </p>
+      </div>
+      <div class="col-md-6 mx-auto mb-3 text-center">
+        <img src="{% static 'img/about.jpg' %}"
+             class="max-width-100"
+             alt="about" />
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
