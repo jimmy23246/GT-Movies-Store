@@ -12,7 +12,7 @@ def index(request):
     if search_term:
         qs = qs.filter(name__icontains=search_term)
 
-    movies = qs.order_by('-sold', 'name')
+    movies = qs.order_by('name')
     
     template_data = {}
     template_data['title'] = 'Movies'

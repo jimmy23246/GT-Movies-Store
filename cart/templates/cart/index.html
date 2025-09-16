@@ -34,24 +34,28 @@
         </tbody>
       </table>
     </div>
-    <div class="row">
-      <div class="text-end">
-        <a class="btn btn-outline-secondary mb-2"><b>
-            Total to pay:
-        </b> ${{ template_data.cart_total }}</a>
-        
-        {% if template_data.movies_in_cart|length > 0 %}
-        <a href="{% url 'cart.purchase' %}"
-          class="btn bg-dark text-white mb-2">Purchase
-        </a>
+
+    <div>
+  <b class="text-start">Type in your address</b><br /><br />
+
+  <form id="checkout-form" method="POST" action="{% url 'cart.purchase' %}">
+    {% csrf_token %}
+    <p>
+      <label for="address">Your Address:</label>
+      <textarea name="address" required class="form-control" id="address"></textarea>
+    </p>
+
+    <div class="text-end mt-3">
+      <a class="btn btn-outline-secondary mb-2"><b>Total to pay:</b> ${{ template_data.cart_total }}</a>
+      {% if template_data.movies_in_cart|length > 0 %}
+        <button type="submit" class="btn bg-dark text-white mb-2">Purchase</button>
         <a href="{% url 'cart.clear' %}">
-          <button class="btn btn-danger mb-2">
-            Remove all movies from Cart
-          </button>
+          <button type="button" class="btn btn-danger mb-2">Remove all movies from Cart</button>
         </a>
-        {% endif %}
+      {% endif %}
     </div>
-    </div>
+  </form>
+</div>
   </div>
 </div>
 {% endblock content %}

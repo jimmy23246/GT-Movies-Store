@@ -43,7 +43,10 @@ def purchase(request):
     order = Order()
     order.user = request.user
     order.total = cart_total
+
+    order.address = request.POST['address']
     order.save()
+
     for movie in movies_in_cart:
         item = Item()
         item.movie = movie
@@ -51,6 +54,7 @@ def purchase(request):
         item.order = order
         item.quantity = cart[str(movie.id)]
         item.save()
+
     request.session['cart'] = {}
     template_data = {}
     template_data['title'] = 'Purchase confirmation'
