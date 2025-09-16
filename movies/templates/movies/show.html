@@ -40,7 +40,19 @@
             <h6 class="card-subtitle mb-2 text-muted">
               {{ review.date }}
             </h6>
+            <h6 class="card-subtitle mb-2 text-muted">
+              No. of reports: {{ review.report }}
+            </h6>
+            <h6 class="card-subtitle mb-2 text-muted">
+              (Comments with 3+ reports are hidden)
+            </h6>
             <p class="card-text">{{ review.comment }}</p>
+
+
+
+            <a class="btn btn-primary"
+              href="{% url 'movies.report_review' id=template_data.movie.id review_id=review.id %}">Report
+            </a>
             {% if user.is_authenticated and user == review.user %}
             <a class="btn btn-primary"
               href="{% url 'movies.edit_review' id=template_data.movie.id review_id=review.id %}">Edit

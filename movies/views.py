@@ -12,7 +12,7 @@ def index(request):
     if search_term:
         qs = qs.filter(name__icontains=search_term)
 
-    movies = qs.order_by('-sold', 'name')
+    movies = qs.order_by('name')
     
     template_data = {}
     template_data['title'] = 'Movies'
@@ -22,7 +22,7 @@ def index(request):
 
 def show(request, id):
     movie = Movie.objects.get(id=id)
-    reviews = Review.objects.filter(movie=movie)
+    reviews = Review.objects.filter(movie=movie, report__lt=3)
 
     template_data = {}
     template_data['title'] = movie.name
@@ -70,12 +70,12 @@ def delete_review(request, id, review_id):
     review.delete()
     return redirect('movies.show', id=id)
 
-# def upvote_review(request, id, review_id):
-#     review = get_object_or_404(Review, id=review_id)
+def report_review(request, id, review_id):
+    review = get_object_or_404(Review, id=review_id)
     
-#     review.vote += 1
-#     review.save()
-#     return redirect('movies.show', id=id)
+    review.report += 1
+    review.save()
+    return redirect('movies.show', id=id)
     
 
 # def top_comments(request):
