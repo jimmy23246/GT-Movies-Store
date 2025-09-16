@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+{% load review_extras %}
 <div class="p-3">
   <div class="container">
     <div class="row mt-3">
@@ -40,6 +41,13 @@
             <h6 class="card-subtitle mb-2 text-muted">
               {{ review.date }}
             </h6>
+            <form method="post" action="{% url 'movies.toggle_upvote' review_id=review.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit"
+                        class="btn btn-sm {% if review|has_upvoted:user %}btn-success{% else %}btn-outline-secondary{% endif %}">
+                    👍 {{ review.score|default:0 }}
+                </button>
+            </form>
             <p class="card-text">{{ review.comment }}</p>
             {% if user.is_authenticated and user == review.user %}
             <a class="btn btn-primary"
