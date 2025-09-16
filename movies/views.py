@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Movie, Review
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 
 # Create your views here.
 def index(request):
-    search_term = request.GET.get('search')
+    search_term = (request.GET.get('search') or '').strip()
+
+    qs = Movie.objects.all()
 
     if search_term:
-        movies = Movie.objects.filter(name__icontains=search_term)
-    else:
-        movies = Movie.objects.all()
+        qs = qs.filter(name__icontains=search_term)
+
+    movies = qs.order_by('-sold', 'name')
     
     template_data = {}
     template_data['title'] = 'Movies'
@@ -66,3 +69,21 @@ def delete_review(request, id, review_id):
         user=request.user)
     review.delete()
     return redirect('movies.show', id=id)
+
+# def upvote_review(request, id, review_id):
+#     review = get_object_or_404(Review, id=review_id)
+    
+#     review.vote += 1
+#     review.save()
+#     return redirect('movies.show', id=id)
+    
+
+# def top_comments(request):
+#     reviews = (Review.objects
+#                .order_by('-vote')) 
+    
+#     template_data = {}
+#     template_data['title'] = 'Top Comments'
+#     template_data['reviews'] = reviews
+
+#     return render(request, 'movies/top_comments.html', {'template_data': template_data})
